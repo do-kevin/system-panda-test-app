@@ -1,0 +1,22 @@
+####################
+[05:55 PM - 7/10/2023]:
+	[type]: Error
+	[message]: TypeError: Cannot destructure property 'authSession' of 'settings' as it is undefined.
+####################
+
+####################
+[05:55 PM - 7/10/2023]:
+	[type]: SystemPandaError
+	[level]: error
+	[status]: null
+	[message]: sh: prisma: command not found
+####################
+
+####################
+[05:56 PM - 7/10/2023]:
+	[type]: SystemPandaError
+	[level]: error
+	[status]: null
+	[message]: sh: prisma: command not found
+####################
+

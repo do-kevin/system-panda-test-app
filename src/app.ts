@@ -176,6 +176,9 @@ SystemPanda({
     */
     defaultMiddlewares: {
       morgan: false,
+      cors: {
+        allowedHeaders: "*",
+      },
     },
   },
 });

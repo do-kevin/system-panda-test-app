@@ -5,6 +5,7 @@
   "main": "build/index.js",
   "type": "module",
   "scripts": {
+    "rebuild": "rm -rf node_modules && npm install --install-links && npx nodemon",
     "dev:js": "npx nodemon src/app.js",
     "dev": "nodemon --watch src -e \"ts\" --exec \"npm start\"",
     "start": "tsc && node build/index",

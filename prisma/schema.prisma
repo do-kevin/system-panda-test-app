@@ -2,74 +2,69 @@
 // configure your SystemPanda collections object instead.
 
 datasource db {
-	provider = "postgresql"
-	url = env("DATABASE_URL")
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
 }
 
 generator client {
-	provider = "prisma-client-js"
+  provider = "prisma-client-js"
+}
+
+model system_panda_plugins {
+  id          Int     @id @default(autoincrement())
+  title       String  @unique
+  description String
+  author      String
+  version     String
+  sourceCode  String
+  active      Boolean
+}
+
+model system_panda_sessions {
+  id               String    @id @default(cuid())
+  data             Json?
+  created_at       DateTime? @default(now())
+  updated_at       DateTime? @updatedAt
+  relation_users   users?    @relation(fields: [relation_usersId], references: [id])
+  relation_usersId Int?      @map("relation_users")
 }
 
 model student {
-	id String @id @default(uuid())
-	name String?
-	relation_classroom classroom[]
+  id                 String      @id @default(uuid())
+  name               String?
+  relation_classroom classroom[]
 }
 
 model classroom {
-	id Int @id @default(autoincrement())
-	name String
-	relation_student student[]
+  id               Int       @id @default(autoincrement())
+  name             String
+  relation_student student[]
 }
 
 model song {
-	id Int @id @default(autoincrement())
-	title String
-	relation_album album? @relation(fields: [relation_albumId], references: [id]) 
-	relation_albumId Int? @map("relation_album")
+  id               Int    @id @default(autoincrement())
+  title            String
+  relation_album   album? @relation(fields: [relation_albumId], references: [id])
+  relation_albumId Int?   @map("relation_album")
 }
 
 model album {
-	id Int @id @default(autoincrement())
-	relation_song song[]
-	year Int
-	title String @unique
-	dateCreated DateTime? @default(now())
-	mJson Json? @default("{\"hello\":\"world\"}")
-	@@index([title])
+  id            Int       @id @default(autoincrement())
+  relation_song song[]
+  year          Int
+  title         String    @unique
+  dateCreated   DateTime? @default(now())
+  mJson         Json?     @default("{\"hello\":\"world\"}")
+
+  @@index([title])
 }
 
-model user {
-	id Int @id @default(autoincrement())
-	userType String
-	relation_session systemPandaSession[]
-	email String @unique
-	password String
-	@@index([email])
-}
+model users {
+  id               Int                     @id @default(autoincrement())
+  relation_session system_panda_sessions[]
+  user_type        String
+  email            String                  @unique
+  password         String
 
-model systemPandaSettings {
-	id Int @id @default(autoincrement())
-	name String @unique
-	value String @default("null")
-	type String?
-}
-
-model systemPandaPlugins {
-	id Int @id @default(autoincrement())
-	title String @unique
-	description String
-	author String
-	version String
-	sourceCode String
-	active Boolean
-}
-
-model systemPandaSession {
-	id String @id @default(cuid())
-	data Json?
-	createdAt DateTime? @default(now())
-	updatedAt DateTime? @updatedAt
-	relation_user user? @relation(fields: [relation_userId], references: [id]) 
-	relation_userId Int? @map("relation_user")
+  @@index([email])
 }
